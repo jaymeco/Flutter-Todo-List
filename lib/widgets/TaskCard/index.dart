@@ -25,39 +25,33 @@ class _TaskCardWidgetState extends State<TaskCardWidget> {
   void initState() {
     super.initState();
     isChecked = widget.isChecked;
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.blue.shade50,
+      color: Colors.blue.shade100,
       elevation: 0,
+      shape: styles.cardShape(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 5),
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
-          child: Row(
-            children: [
-              Checkbox(
-                  value: isChecked,
-                  onChanged: (value) {
-                    setState(() {
-                      isChecked = !isChecked;
-                    });
-                  }),
-              SizedBox(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(widget.title, style: styles.cardTitle()),
-                    Text(
-                      'Data de finalização: ${widget.date}',
-                      style: styles.cardDescription(),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          child: ListTile(
+            onTap: () {
+              setState(() {
+                isChecked = true;
+              });
+            },
+            trailing: Checkbox(
+                value: isChecked,
+                onChanged: (value) {
+                  setState(() {
+                    isChecked = !isChecked;
+                  });
+                }),
+            title: Text(widget.title.toUpperCase(), style: styles.cardTitle()),
+            subtitle: Text(widget.date, style: styles.cardDescription()),
           ),
         ),
       ),
