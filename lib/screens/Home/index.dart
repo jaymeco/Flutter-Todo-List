@@ -37,22 +37,39 @@ class _HomePageWidget extends State<HomePageWidget> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  color: Colors.blue.shade400,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    color: Colors.transparent,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Tarefas', style: styles.pageTitle()),
-                        Text('Quarta-feira, 07/09/2022',
-                            style: styles.pageSubtitle()),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Bom dia', style: styles.pageUperTitle()),
+                            Text('John doe', style: styles.pageTitle()),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Tarefas de hoje',
+                                    style: styles.pageSubtitle()),
+                                Text('Quarta-feira, 07/09/2022',
+                                    style: styles.pageSubtitle()),
+                              ],
+                            ),
+                          ],
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Row(
                             children: [
                               Expanded(
                                   child: TextField(
+                                cursorColor: Colors.white,
                                 onSubmitted: (value) {
                                   if (value != '') {
                                     setState(() {
@@ -68,7 +85,7 @@ class _HomePageWidget extends State<HomePageWidget> {
                                 decoration: styles.addTaskField(),
                               )),
                               IconButton(
-                                  color: Colors.blue,
+                                  color: Colors.red,
                                   onPressed: addTask,
                                   icon: const Icon(
                                     Icons.add,
@@ -82,47 +99,48 @@ class _HomePageWidget extends State<HomePageWidget> {
                   ),
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                        child: Text('A FAZER'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                          children: [
-                            for (var task in undoneTasks)
-                              TaskCardWidget(
-                                  title: task['title'],
-                                  date: task['finish_date'],
-                                  isChecked: false),
-                          ],
+                  flex: 2,
+                  child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 5),
+                      decoration: styles.mainTaskContainer(),
+                      child: SingleChildScrollView(
+                        child: Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8),
+                                child: Text('A FAZER'),
+                              ),
+                              Column(
+                                children: [
+                                  for (var task in undoneTasks)
+                                    TaskCardWidget(
+                                        title: task['title'],
+                                        date: task['finish_date'],
+                                        isChecked: false),
+                                ],
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8),
+                                child: Text('FEITOS'),
+                              ),
+                              Column(
+                                children: [
+                                  for (var task in doneTasks)
+                                    TaskCardWidget(
+                                        title: task['title'],
+                                        date: task['done_date'],
+                                        isChecked: true),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                        child: Text('FEITOS'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                          children: [
-                            for (var task in doneTasks)
-                              TaskCardWidget(
-                                  title: task['title'],
-                                  date: task['done_date'],
-                                  isChecked: true),
-                          ],
-                        ),
-                      ),
-                    ],
-                  )),
-                )
+                      )),
+                ),
               ]),
         ),
       ),
