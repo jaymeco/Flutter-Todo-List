@@ -5,7 +5,7 @@ class Styles {
     return const TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 15,
-      color: Colors.black,
+      color: Colors.white,
     );
   }
 
