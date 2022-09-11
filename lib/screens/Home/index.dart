@@ -119,46 +119,45 @@ class _HomePageWidget extends State<HomePageWidget> {
                   ),
                   decoration: styles.mainTaskContainer(),
                   child: SingleChildScrollView(
-                    child: Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Text('A FAZER'),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Text('A FAZER'),
+                        ),
+                        if (undoneTasks.isEmpty)
+                          ContentPlaceholderWidget(
+                            label: 'Sem tarefas a serem feitas!',
                           ),
-                          if (undoneTasks.isEmpty)
-                            ContentPlaceholderWidget(
-                              label: 'Sem tarefas a serem feitas!',
-                            ),
-                          Column(
-                            children: [
-                              for (var task in undoneTasks)
-                                TaskCardWidget(
+                        Column(
+                          children: [
+                            for (var task in undoneTasks)
+                              TaskCardWidget(
+                                title: task.getTitle(),
+                                date: task.getFormattedDate(),
+                                isChecked: task.getIsDone(),
+                              ),
+                          ],
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Text('FEITOS'),
+                        ),
+                        if (doneTasks.isEmpty)
+                          ContentPlaceholderWidget(
+                            label: 'Nenhuma tarefa foi feita!',
+                          ),
+                        Column(
+                          children: [
+                            for (var task in doneTasks)
+                              TaskCardWidget(
                                   title: task.getTitle(),
                                   date: task.getFormattedDate(),
-                                  isChecked: task.getIsDone(),
-                                ),
-                            ],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Text('FEITOS'),
-                          ),
-                          if (doneTasks.isEmpty)
-                            ContentPlaceholderWidget(
-                                label: 'Nenhuma tarefa foi feita!'),
-                          Column(
-                            children: [
-                              for (var task in doneTasks)
-                                TaskCardWidget(
-                                    title: task.getTitle(),
-                                    date: task.getFormattedDate(),
-                                    isChecked: task.getIsDone()),
-                            ],
-                          ),
-                        ],
-                      ),
+                                  isChecked: task.getIsDone()),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
