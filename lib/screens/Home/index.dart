@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/widgets/ContentPlaceholder/index.dart';
 import '../../widgets/TaskCard/index.dart';
 import './styles.dart';
 
@@ -114,6 +115,9 @@ class _HomePageWidget extends State<HomePageWidget> {
                                 padding: EdgeInsets.symmetric(vertical: 8),
                                 child: Text('A FAZER'),
                               ),
+                              if (undoneTasks.isEmpty)
+                                ContentPlaceholderWidget(
+                                    label: 'Sem tarefas a serem feitas!'),
                               Column(
                                 children: [
                                   for (var task in undoneTasks)
@@ -127,6 +131,9 @@ class _HomePageWidget extends State<HomePageWidget> {
                                 padding: EdgeInsets.symmetric(vertical: 8),
                                 child: Text('FEITOS'),
                               ),
+                              if (doneTasks.isEmpty)
+                                ContentPlaceholderWidget(
+                                    label: 'Nenhuma tarefa foi feita!'),
                               Column(
                                 children: [
                                   for (var task in doneTasks)
