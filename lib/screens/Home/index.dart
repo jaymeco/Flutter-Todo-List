@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/Dtos/contracts/task_dtos.dart';
 import 'package:todo_list/widgets/ContentPlaceholder/index.dart';
 import '../../widgets/TaskCard/index.dart';
 import './styles.dart';
+import 'package:todo_list/Dtos/task_dto.dart';
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({Key? key}) : super(key: key);
@@ -12,16 +14,24 @@ class HomePageWidget extends StatefulWidget {
 
 class _HomePageWidget extends State<HomePageWidget> {
   final Styles styles = Styles();
-  final List undoneTasks = [];
-  final List doneTasks = [];
+  final List<ITaskDto> undoneTasks = [];
+  final List<ITaskDto> doneTasks = [];
   final controller = TextEditingController();
 
   void addTask() {
+    setState(() {
+      TaskDto task = TaskDto(
+        title: controller.text,
+        isDone: false,
+        date: DateTime.now().toString(),
+      );
+      undoneTasks.add(task);
+    });
+  }
+
+  void onSubmitTask() {
     if (controller.text != '') {
-      setState(() {
-        undoneTasks
-            .add({'title': controller.text, 'finish_date': '07/09/2022 18:00'});
-      });
+      addTask();
       controller.clear();
     }
   }
@@ -69,29 +79,23 @@ class _HomePageWidget extends State<HomePageWidget> {
                           child: Row(
                             children: [
                               Expanded(
-                                  child: TextField(
-                                cursorColor: Colors.white,
-                                onSubmitted: (value) {
-                                  if (value != '') {
-                                    setState(() {
-                                      undoneTasks.add({
-                                        'title': value,
-                                        'finish_date': '07/09/2022 18:00'
-                                      });
-                                    });
-                                    controller.clear();
-                                  }
-                                },
-                                controller: controller,
-                                decoration: styles.addTaskField(),
-                              )),
+                                child: TextField(
+                                  cursorColor: Colors.white,
+                                  onSubmitted: (value) {
+                                    onSubmitTask();
+                                  },
+                                  controller: controller,
+                                  decoration: styles.addTaskField(),
+                                ),
+                              ),
                               IconButton(
-                                  color: Colors.red,
-                                  onPressed: addTask,
-                                  icon: const Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                  ))
+                                color: Colors.red,
+                                onPressed: onSubmitTask,
+                                icon: const Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ],
                           ),
                         )
@@ -122,9 +126,9 @@ class _HomePageWidget extends State<HomePageWidget> {
                                 children: [
                                   for (var task in undoneTasks)
                                     TaskCardWidget(
-                                        title: task['title'],
-                                        date: task['finish_date'],
-                                        isChecked: false),
+                                        title: task.getTitle(),
+                                        date: task.getFormattedDate(),
+                                        isChecked: task.getIsDone()),
                                 ],
                               ),
                               const Padding(
@@ -138,9 +142,9 @@ class _HomePageWidget extends State<HomePageWidget> {
                                 children: [
                                   for (var task in doneTasks)
                                     TaskCardWidget(
-                                        title: task['title'],
-                                        date: task['done_date'],
-                                        isChecked: true),
+                                        title: task.getTitle(),
+                                        date: task.getFormattedDate(),
+                                        isChecked: task.getIsDone()),
                                 ],
                               ),
                             ],
