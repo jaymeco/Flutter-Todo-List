@@ -30,11 +30,12 @@ class _TaskCardWidgetState extends State<TaskCardWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.only(bottom: 10),
       color: Colors.blue.shade100,
       elevation: 0,
       shape: styles.cardShape(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 5),
+        padding: const EdgeInsets.symmetric(vertical: 5),
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: ListTile(
