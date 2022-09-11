@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 
 import 'package:todo_list/Dtos/task_dto.dart';
 import 'package:todo_list/Dtos/contracts/task_dtos.dart';
@@ -19,6 +20,7 @@ class _HomePageWidget extends State<HomePageWidget> {
   final List<ITaskDto> undoneTasks = [];
   final List<ITaskDto> doneTasks = [];
   final controller = TextEditingController();
+  DateTime today = DateTime.now();
 
   void addTask() {
     setState(() {
@@ -36,6 +38,20 @@ class _HomePageWidget extends State<HomePageWidget> {
       addTask();
       controller.clear();
     }
+  }
+
+  String renderUperTitleLabel() {
+    if (today.hour >= 12 && today.hour <= 17) {
+      return 'Boa tarde';
+    } else if (today.hour < 12) {
+      return 'Bom dia';
+    } else {
+      return 'Boa noite';
+    }
+  }
+
+  String formatDate() {
+    return Jiffy(today).format('EEE, dd/MM/yyyy');
   }
 
   @override
@@ -63,7 +79,8 @@ class _HomePageWidget extends State<HomePageWidget> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Bom dia', style: styles.pageUperTitle()),
+                          Text(renderUperTitleLabel(),
+                              style: styles.pageUperTitle()),
                           Text('John doe', style: styles.pageTitle()),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,7 +90,7 @@ class _HomePageWidget extends State<HomePageWidget> {
                                 style: styles.pageSubtitle(),
                               ),
                               Text(
-                                'Quarta-feira, 07/09/2022',
+                                formatDate(),
                                 style: styles.pageSubtitle(),
                               ),
                             ],
